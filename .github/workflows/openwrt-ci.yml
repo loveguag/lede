@@ -13,8 +13,8 @@ on:
   push:
     branches: 
       - master
-  # schedule:
-  #   - cron: 0 20 * * *
+  schedule:
+    - cron: 0 20 * * *
   # release:
   #   types: [published]
 
@@ -171,6 +171,38 @@ jobs:
           # 
           # ========================固件定制部分结束========================
           # 
+          cat >> .config <<EOF
+          CONFIG_TARGET_x86=y
+          CONFIG_TARGET_x86_64=y
+          CONFIG_TARGET_x86_64_Generic=y
+          CONFIG_EFI_IMAGES=y
+          CONFIG_PACKAGE_ShadowVPN=m
+          CONFIG_PACKAGE_grub2-efi=y
+          CONFIG_PACKAGE_iptables-mod-trace=m
+          CONFIG_PACKAGE_iputils-ping=y
+          CONFIG_PACKAGE_kmod-fou=y
+          CONFIG_PACKAGE_kmod-fou6=y
+          CONFIG_PACKAGE_kmod-ip6-tunnel=y
+          CONFIG_PACKAGE_kmod-ipt-debug=y
+          CONFIG_PACKAGE_kmod-ipt-filter=y
+          CONFIG_PACKAGE_kmod-ipt-raw6=y
+          CONFIG_PACKAGE_kmod-nft-core=y
+          CONFIG_PACKAGE_kmod-nft-nat=y
+          CONFIG_PACKAGE_kmod-nft-offload=y
+          CONFIG_PACKAGE_kmod-udptunnel4=y
+          CONFIG_PACKAGE_kmod-udptunnel6=y
+          CONFIG_PACKAGE_kmod-wireguard=y
+          CONFIG_PACKAGE_luci-app-shadowsocks-libev=y
+          CONFIG_PACKAGE_luci-app-wireguard=y
+          CONFIG_PACKAGE_luci-i18n-wireguard-zh-cn=y
+          CONFIG_PACKAGE_luci-proto-wireguard=y
+          CONFIG_PACKAGE_monit=y
+          CONFIG_PACKAGE_netdata=y
+          CONFIG_PACKAGE_sudo=y
+          CONFIG_PACKAGE_wireguard=y
+          CONFIG_PACKAGE_wireguard-tools=y
+          CONFIG_TARGET_ROOTFS_PARTSIZE=128 
+          EOF      
           sed -i 's/^[ \t]*//g' ./.config
           make defconfig
       - name: Make download
